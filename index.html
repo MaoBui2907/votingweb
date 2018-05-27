@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Demo Voting App</title>
+	<link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div class="container">
+		<h1 id="tieu-de"></h1>
+		<div class="table-responsive" id="tb-ungvien">
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th>
+          <th>MSSV</th>
+          <th>Họ tên</th>
+          <th>Thông tin</th>
+        </tr>
+        <% data_ungvien.DanhSach.forEach(function(item){ %>
+        <tr>
+          <th><%= item.id %></th>
+          <th><%= item.mssv %></th>
+          <th><%= item.name %></th>
+          <th><a href="#" class="thongtin_ungvien">Thông tin</a></th>
+        </tr>
+        <% }); %>
+      </table>
+		</div>
+		<input type="text" id="nhap-ung-vien" value="ID">
+		<a href="#" class="btn btn-primary" onclick="vote()">vote</a>
+	</div>
+</body>
+	<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+	<script src="script.js"></script>
+</html>
