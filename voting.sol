@@ -7,6 +7,7 @@ contract BauCu {
   mapping (bytes32 => uint8) public PhieuBau;
 
   bytes32[] public DanhSach;
+  
   // Constructor
   function BauCu(bytes32[] CacUngVien) {
     DanhSach = CacUngVien;
@@ -20,6 +21,7 @@ contract BauCu {
     }
     return false;
   }
+
   // Tra ve so phieu cho ung vien
   function SoPhieu(bytes32 UngVien) returns (uint8) {
     if  (KiemTraUngVien(UngVien) == true ){

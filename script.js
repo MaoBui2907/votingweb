@@ -12,17 +12,17 @@ window.onload = function(){
       contractInstance.BoPhieu(name,
       {from: web3.eth.accounts[0]},
       function(){
-        var div_id = candidates[candidateName];
-        $("#"+div_id).html(contractInstance.SoPhieu.call(candidateName).toString());
+        $("#"+candidates[name]).html(contractInstance.SoPhieu.call(name).toString());
+        alert(web3.eth.accounts[0]);
+        alert(contractInstance.SoPhieu.call(name).toString());
       }
     );
   };
 
   // hiện số phiếu
   for (var i = 0; i < candidateNames.length; i++){
-    var name = candidateNames[i];
-    var val = contractInstance.SoPhieu.call(name).toString();
-    $("#" + candidates[name]).html(val);
+    let name = candidateNames[i];
+    $("#" + candidates[name]).html(contractInstance.SoPhieu.call(name).toString());
   }
 });
 var candidates = {
@@ -33,9 +33,10 @@ var candidates = {
 };
 
 var candidateNames = Object.keys(candidates);
+
 // ID To name
 function IDtoName(ID){
-  return candidateNames[ID];
+  return candidateNames[ID-1];
 }
 
 // reset count
@@ -47,3 +48,24 @@ $(document).ready(function(event) {
   }
 });
 };
+
+// Thong tin
+$("tr a").click(function(event) {
+  /* Act on the event */
+  var id = $(this).attr('id');
+  thongtin(id);
+});
+
+var dataDanhSach = JSON.parse("data.json");
+
+// Thong tin
+function thongtin(id){
+  var HoTen = dataDanhSach.DanhSach[id-1].name;
+  var MSSV = dataDanhSach.DanhSach[id-1].mssv;
+  var NgaySinh = dataDanhSach.DanhSach[id-1].dbirth;
+  var QueQuan = dataDanhSach.DanhSach[id-1].htown;
+  var SDT = dataDanhSach.DanhSach[id-1].sdt;
+  var ThongTin = dataDanhSach.DanhSach[id-1].detail;
+  alert(Hoten + "\n" + MSSV + "\n");
+
+}

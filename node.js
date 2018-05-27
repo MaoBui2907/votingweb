@@ -1,13 +1,12 @@
 var solc = require('solc');
 var Web3 = require('web3');
 var fs = require('fs');
-var util = require('util');
 
 // var fspromise = fs.promises;
-var express = require('express');
+//var express = require('express');
 //var fs_writeFile = util.promisify(fs.writeFile);
-var app = express();
-app.locals.data_ungvien = require('./data.json');
+// var app = express();
+// app.locals.data_ungvien = require('./data.json');
 
 // tao server
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
@@ -34,12 +33,12 @@ var abiJSON = JSON.parse(abi);
 
 // Dua len may ao eth
 // tao object
-var VotingContract = new web3.eth.Contract(abiJSON);
+var VotingContract = web3.eth.contract(abiJSON);
 
 var contractInstance;
 
-var deployedContract = VotingContract.deploy(
-  ["Anh", "Binh","Chau", "Duong"],
+var deployedContract = VotingContract.new(
+  ["Anh", "Bac","Canh", "Dung"],
   {
     data: byteCode,
     from: web3.eth.accounts[0],
@@ -48,37 +47,36 @@ var deployedContract = VotingContract.deploy(
   function(error, contract){
     if(!error){
       if(!contract.address){
-        console.log("Contract transactionHash send " + contract.transactionHash + "waiting for miner")
+        console.log(contract.transactionHash + "dang doi xu ly");
       } else {
-        console.log(contract.address + "mined");
+        console.log("contract da duoc xu ly. Adress: "+ contract.address);
       }
 
-      // // instance
-      //
-      // console.log(contract);
-      // contractInstance = VotingContract.at(contract.address);
-      // console.log(
-      //           "\n------------ LOGGING Executing contract calls -------------\n"
-      //         );
-      // console.log("Votes for Anh before: ");
-      // //totalVotesFor() is a function in our contract
-      // console.log(contractInstance.SoPhieu.call("Anh").valueOf());
-      //
-      // //execute a transaction. The transaction id (output) is the proof that this transaction occurred and you can refer back to this at any time in the future. This transaction is immutable.
-      // console.log(
-      //   contractInstance.voteForCandidate("Anh", {
-      //     from: web3.eth.accounts[0]
-      //   })
-      // );
-      //
-      // //votes for Anh should go up by 1
-      // console.log("Votes for Anh after: ");
-      // console.log(contractInstance.SoPhieu.call("Anh").valueOf());
-      //
-      // // end instance
+      // test
+      console.log(contract);
+      contractInstance = VotingContract.at(contract.address);
+      console.log(
+                "\n------------ LOGGING Executing contract calls -------------\n"
+              );
+      console.log("Votes for Anh before: ");
+      // Kiem tra so phieu hien tai cua Anh
+      console.log(contractInstance.SoPhieu.call("Anh").valueOf());
+
+      // Bau cho Anh
+      console.log(
+        contractInstance.BoPhieu("Anh",
+        {from: web3.eth.accounts[0]}
+        )
+      );
+
+      // Kiem tra so phieu sau khi bau
+      console.log("Votes for Anh after: ");
+      console.log(contractInstance.SoPhieu.call("Anh").valueOf());
+
+      // end instance
 
       // promise writeFile
-          fs.writeFileSync("./contract.json",
+          fs.writeFile("./contract.json",
           JSON.stringify(
             {
               address: contract.address,
