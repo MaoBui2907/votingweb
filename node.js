@@ -2,12 +2,12 @@ var solc = require('solc');
 var Web3 = require('web3');
 var fs = require('fs');
 var util = require('util');
-var fspromise = fs.promises;
+
+// var fspromise = fs.promises;
 var express = require('express');
 //var fs_writeFile = util.promisify(fs.writeFile);
 var app = express();
-
-// app.locals.data_ungvien = require('/data.json');
+app.locals.data_ungvien = require('./data.json');
 
 // tao server
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));

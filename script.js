@@ -6,9 +6,10 @@ window.onload = function(){
   $.getJSON("./contract.json", function(contract){
     contractInstance = web3.eth.contract(JSON.parse(contract.abi)).at(contract.address);
 
-    window.voteForCandidate = function(){
-      candidateName = $("#candidate").val();
-      contractInstance.BoPhieu(candidateName,
+    window.BoPhieu = function(){
+      ID = $("#nhap-ung-vien").val();
+      name = IDtoName(parseInt(ID));
+      contractInstance.BoPhieu(name,
       {from: web3.eth.accounts[0]},
       function(){
         var div_id = candidates[candidateName];
@@ -16,6 +17,8 @@ window.onload = function(){
       }
     );
   };
+
+  // hiện số phiếu
   for (var i = 0; i < candidateNames.length; i++){
     var name = candidateNames[i];
     var val = contractInstance.SoPhieu.call(name).toString();
@@ -24,13 +27,18 @@ window.onload = function(){
 });
 var candidates = {
   Anh : "candidate-1",
-  Binh : "candidate-2",
-  Chau: "candidate-3",
-  Duong: "candidate-4"
+  Bac : "candidate-2",
+  Canh: "candidate-3",
+  Dung: "candidate-4"
 };
 
 var candidateNames = Object.keys(candidates);
+// ID To name
+function IDtoName(ID){
+  return candidateNames[ID];
+}
 
+// reset count
 $(document).ready(function(event) {
   for (var i = 0; i < candidateNames.length; i++) {
     // body...

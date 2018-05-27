@@ -14,22 +14,51 @@
           <th>MSSV</th>
           <th>Họ tên</th>
           <th>Thông tin</th>
+					<th>Số phiếu</th>
         </tr>
-        <% data_ungvien.DanhSach.forEach(function(item){ %>
         <tr>
-          <th><%= item.id %></th>
-          <th><%= item.mssv %></th>
-          <th><%= item.name %></th>
-          <th><a href="#" class="thongtin_ungvien">Thông tin</a></th>
+					<th>1</th>
+					<th>12345432</th>
+					<th>Nguyễn Văn Anh</th>
+					<th>
+						<a href="#">Thông tin</a>
+					</th>
+					<th id="candidate-1"></th>
         </tr>
-        <% }); %>
+				<tr>
+					<th>2</th>
+					<th>12345654</th>
+					<th>Nguyễn Văn Bắc</th>
+					<th>
+						<a href="#">Thông tin</a>
+					</th>
+					<th id="candidate-2"></th>
+				</tr>
+				<tr>
+					<th>3</th>
+					<th>1223322</th>
+					<th>Nguyễn Văn Cảnh</th>
+					<th>
+						<a href="#">Thông tin</a>
+					</th>
+					<th id="candidate-3"></th>
+				</tr>
+				<tr>
+					<th>4</th>
+					<th>1123445</th>
+					<th>Nguyễn Văn Dũng</th>
+					<th>
+						<a href="#">Thông tin</a>
+					</th>
+					<th id="candidate-4"></th>
+				</tr>
       </table>
 		</div>
 		<input type="text" id="nhap-ung-vien" value="ID">
-		<a href="#" class="btn btn-primary" onclick="vote()">vote</a>
+		<a href="#" class="btn btn-primary" onclick="BoPhieu()">vote</a>
 	</div>
 </body>
-	<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
-	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+	<script src="web3.js"></script>
+	<script src="jquery.js"></script>
 	<script src="script.js"></script>
 </html>
