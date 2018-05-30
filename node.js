@@ -2,15 +2,11 @@ var solc = require('solc');
 var Web3 = require('web3');
 var fs = require('fs');
 
-// var fspromise = fs.promises;
-//var express = require('express');
-//var fs_writeFile = util.promisify(fs.writeFile);
-// var app = express();
-// app.locals.data_ungvien = require('./data.json');
-
 // tao server
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 console.log("\n\tinit server completed\n");
+console.log("\n\tDanh sach acount:\n");
+console.log(web3.eth.accounts);
 
 // compile solidity:
 var source = fs.readFileSync("voting.sol").toString();
@@ -33,68 +29,69 @@ var abiJSON = JSON.parse(abi);
 
 // Dua len may ao eth
 // tao object
-var VotingContract = web3.eth.contract(abiJSON);
+var BauCuContract = web3.eth.contract(abiJSON);
 
 var contractInstance;
 
-var deployedContract = VotingContract.new(
+var deployedContract = BauCuContract.new(
   ["Anh", "Bac","Canh", "Dung"],
   {
     data: byteCode,
     from: web3.eth.accounts[0],
     gas: 4700000
   },
-  function(error, contract){
-    if(!error){
+  function(er, contract){
+    if(!er){
       if(!contract.address){
-        console.log(contract.transactionHash + "dang doi xu ly");
+        console.log(contract.transactionHash + " dang doi xu ly");
       } else {
         console.log("contract da duoc xu ly. Adress: "+ contract.address);
       }
 
       // test
-      console.log(contract);
-      contractInstance = VotingContract.at(contract.address);
-      console.log(
-                "\n------------ LOGGING Executing contract calls -------------\n"
-              );
-      console.log("Votes for Anh before: ");
-      // Kiem tra so phieu hien tai cua Anh
-      console.log(contractInstance.SoPhieu.call("Anh").valueOf());
-
-      // Bau cho Anh
-      console.log(
-        contractInstance.BoPhieu("Anh",
-        {from: web3.eth.accounts[0]}
-        )
-      );
-
-      // Kiem tra so phieu sau khi bau
-      console.log("Votes for Anh after: ");
-      console.log(contractInstance.SoPhieu.call("Anh").valueOf());
-
-      // end instance
-
+      // console.log(contract);
+      // contractInstance = BauCuContract.at(contract.address);
+      // console.log(
+      //           "\n------------ LOGGING Executing contract calls -------------\n"
+      //         );
+      // console.log("So phieu cua Anh: ");
+      // // Kiem tra so phieu hien tai cua Anh
+      // //console.log(web3.eth.accounts[0].balance);
+      // console.log(contractInstance.SoPhieu.call("Anh").valueOf());
+      //
+      // // Bau cho Anh
+      // console.log(
+      //   contractInstance.BoPhieu("Anh",
+      //   {from: web3.eth.accounts[0]}
+      //   )
+      // );
+      //
+      // // Kiem tra so phieu sau khi bau
+      // console.log("So phieu cua Anh: ");
+      // console.log(contractInstance.SoPhieu.call("Anh").valueOf());
+      //
+      // // end instance
+      //
       // promise writeFile
-          fs.writeFile("./contract.json",
-          JSON.stringify(
-            {
-              address: contract.address,
-              abi : JSON.stringify(abiJSON, null, 2)
-            },
-            null,
-            2),
-            "utf-8",
-            function(error){
-              if (error) {
-                console.log(error);
-              }else {
-                console.log("file contract.json saved");
-              }
+        fs.writeFile("./contract.json",
+        JSON.stringify(
+          {
+            address: contract.address,
+            abi : JSON.stringify(abiJSON, null, 2)
+          },
+          null,
+          2),
+          "utf-8",
+          function(err){
+            if (err) {
+              console.log(err);
+            }else {
+              console.log("file contract.json saved");
             }
-          );
+          }
+        );
       } else {
-      console.log(error);
+      console.log(er);
       }
     }
 );

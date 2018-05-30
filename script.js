@@ -1,71 +1,53 @@
+var CacUngVien = {
+    Anh : "candidate-1",
+    Bac : "candidate-2",
+    Canh: "candidate-3",
+    Dung: "candidate-4"
+};
+var DanhSachUngVien = Object.keys(CacUngVien);
+// ID To name
+function IDtoName(ID){
+  return DanhSachUngVien[ID-1];
+}
 window.onload = function(){
   // tao server
   var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
   var contractInstance;
+  console.log(contractInstance);
+  $.getJSON("contract.json", function(contract){
+    var abi = contract.abi;
+    console.log(abi);
+    var abiJSON = JSON.parse(abi);
+    console.log(abiJSON);
+    var BauCuContract = web3.eth.contract(abiJSON);
+    contractInstance = BauCuContract.at(contract.address);
 
-  $.getJSON("./contract.json", function(contract){
-    contractInstance = web3.eth.contract(JSON.parse(contract.abi)).at(contract.address);
-
+    //console.log(contractInstance);
     window.BoPhieu = function(){
-      ID = $("#nhap-ung-vien").val();
-      name = IDtoName(parseInt(ID));
+      var ID = $("#nhap-ung-vien").val();
+      var name = IDtoName(parseInt(ID));
+      alert(name);
       contractInstance.BoPhieu(name,
-      {from: web3.eth.accounts[0]},
-      function(){
-        $("#"+candidates[name]).html(contractInstance.SoPhieu.call(name).toString());
-        alert(web3.eth.accounts[0]);
-        alert(contractInstance.SoPhieu.call(name).toString());
+      {from: web3.eth.accounts[0]});
+      let val = contractInstance.SoPhieu.call(name);
+      alert(val);
+      $("#"+CacUngVien[name]).html(val.toString());
       }
-    );
-  };
 
   // hiện số phiếu
-  for (var i = 0; i < candidateNames.length; i++){
-    let name = candidateNames[i];
-    $("#" + candidates[name]).html(contractInstance.SoPhieu.call(name).toString());
+  for (var i = 0; i < DanhSachUngVien.length; i++){
+    var name = DanhSachUngVien[i];
+    let val = contractInstance.SoPhieu.call(name);
+    $("#" + CacUngVien[name]).html(val.toString());
   }
 });
-var candidates = {
-  Anh : "candidate-1",
-  Bac : "candidate-2",
-  Canh: "candidate-3",
-  Dung: "candidate-4"
+
 };
-
-var candidateNames = Object.keys(candidates);
-
-// ID To name
-function IDtoName(ID){
-  return candidateNames[ID-1];
-}
-
-// reset count
 $(document).ready(function(event) {
-  for (var i = 0; i < candidateNames.length; i++) {
+// reset count
+  for (var i = 0; i < DanhSachUngVien.length; i++) {
     // body...
-    let name = candidateNames[i];
-    $("#"+candidates[name]).html(0);
+    let name = DanhSachUngVien[i];
+    $("#"+CacUngVien[name]).html(0);
   }
 });
-};
-
-// Thong tin
-$("tr a").click(function(event) {
-  /* Act on the event */
-  var id = $(this).attr('id');
-  thongtin(id);
-});
-
-var dataDanhSach = JSON.parse("data.json");
-
-// Thong tin
-function thongtin(id){
-  var HoTen = dataDanhSach.DanhSach[id-1].name;
-  var MSSV = dataDanhSach.DanhSach[id-1].mssv;
-  var NgaySinh = dataDanhSach.DanhSach[id-1].dbirth;
-  var QueQuan = dataDanhSach.DanhSach[id-1].htown;
-  var SDT = dataDanhSach.DanhSach[id-1].sdt;
-  var ThongTin = dataDanhSach.DanhSach[id-1].detail;
-  alert(Hoten + "\n" + MSSV + "\n");
-
-}
