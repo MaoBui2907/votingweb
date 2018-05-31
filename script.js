@@ -7,7 +7,7 @@ window.onload = function(){
   $.getJSON("./contract.json", function(contract){
     var abi = contract.abi;
     var abiJSON = JSON.parse(abi);
-    console.log(contract);
+    console.log(abiJSON);
     var BauCuContract = web3.eth.contract(abiJSON);
     BoPhieuBau = BauCuContract.at(contract.address);
 
@@ -20,7 +20,6 @@ window.onload = function(){
 
       function(){
         let val = BoPhieuBau.SoPhieu.call(name);
-        alert(val);
         $("#"+CacUngVien[name]).html(val.toString());
         }
     );
