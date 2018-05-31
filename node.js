@@ -5,6 +5,8 @@ var fs = require('fs');
 // tao server
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 console.log("\n\tinit server completed\n");
+
+// Danh sach cac ethereum account
 console.log("\n\tDanh sach acount:\n");
 console.log(web3.eth.accounts);
 
@@ -24,14 +26,14 @@ console.log("\n\tend bytecode\n");
 // lay abi tu file solidity
 var abi = compiled.contracts[":BauCu"].interface;
 console.log("\n\tABI\n");
-console.log(abi);
 var abiJSON = JSON.parse(abi);
+console.log(abiJSON);
+console.log("\n\tEnd ABI\n");
 
 // Dua len may ao eth
 // tao object
-var BauCuContract = web3.eth.contract(abiJSON);
 
-var contractInstance;
+var BauCuContract = web3.eth.contract(abiJSON);
 
 var deployedContract = BauCuContract.new(
   ["Anh", "Bac","Canh", "Dung"],
@@ -48,30 +50,6 @@ var deployedContract = BauCuContract.new(
         console.log("contract da duoc xu ly. Adress: "+ contract.address);
       }
 
-      // test
-      // console.log(contract);
-      // contractInstance = BauCuContract.at(contract.address);
-      // console.log(
-      //           "\n------------ LOGGING Executing contract calls -------------\n"
-      //         );
-      // console.log("So phieu cua Anh: ");
-      // // Kiem tra so phieu hien tai cua Anh
-      // //console.log(web3.eth.accounts[0].balance);
-      // console.log(contractInstance.SoPhieu.call("Anh").valueOf());
-      //
-      // // Bau cho Anh
-      // console.log(
-      //   contractInstance.BoPhieu("Anh",
-      //   {from: web3.eth.accounts[0]}
-      //   )
-      // );
-      //
-      // // Kiem tra so phieu sau khi bau
-      // console.log("So phieu cua Anh: ");
-      // console.log(contractInstance.SoPhieu.call("Anh").valueOf());
-      //
-      // // end instance
-      //
       // promise writeFile
         fs.writeFile("./contract.json",
         JSON.stringify(
